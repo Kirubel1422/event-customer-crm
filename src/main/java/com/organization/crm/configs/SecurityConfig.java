@@ -1,7 +1,6 @@
 package com.organization.crm.configs;
 
 import com.organization.crm.modules.Auth.AuthFilter;
-import com.organization.crm.utils.CustomAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +15,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final AuthFilter authFilter;
-    private final CustomAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,9 +29,6 @@ public class SecurityConfig {
                                 .hasAnyRole("ADMIN","USER")
                 )
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(
-                        ex -> ex.accessDeniedHandler(accessDeniedHandler)
-                )
                 .build();
     }
 }
